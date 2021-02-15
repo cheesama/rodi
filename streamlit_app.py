@@ -41,12 +41,12 @@ def hf_ents_to_displacy_format(ents, ignore_entities=[]):
     else:
         entity_key = "entity"
     for i, ent in enumerate(ents):
-        if ent[entity_key] not in ignore_entities:
+        if ent[1] not in ignore_entities:
             spacy_ents.append(
                 {
                     "start": start_pointer,
                     "end": start_pointer + len(ent[0]),
-                    "label": ent[entity_key],
+                    "label": ent[1],
                 }
             )
         start_pointer = start_pointer + len(ent[0]) + 1
