@@ -31,6 +31,14 @@ def load_ner_model():
         
         return ner_model
 
+# Load tts model
+@st.cache(allow_output_mutation=True)
+def load_tts_model():
+    with st.spinner('Loading tts model...'):
+        tts_model = Pororo(task="tts", lang="ko")
+        
+        return tts_model
+
 def hf_ents_to_displacy_format(ents, ignore_entities=[]):
     s_ents = {}
     s_ents["text"] = " ".join([e[0] for e in ents])
@@ -56,10 +64,11 @@ def hf_ents_to_displacy_format(ents, ignore_entities=[]):
     return s_ents
 
 def add_colormap(labels):
+    color_map = {}
     for label in labels:
-        if label not in color_map:
-            rand_color = "#"+"%06x" % random.randint(0, 0xFFFFFF)
-            color_map[label]=rand_color
+        #if label not in color_map:
+        rand_color = "#"+"%06x" % random.randint(0, 0xFFFFFF)
+        color_map[label]=rand_color
 
     return color_map
 
@@ -95,6 +104,15 @@ if __name__ == '__main__':
             html = displacy.render(bert_doc, manual=True, style="ent", options={"colors": color_map})
             html = html.replace("\n", " ")
             st.write(WRAPPER.format(html), unsafe_allow_html=True)
+
+    st.subheader('Speech Synthesis')
+    tts_model = load_tts_model()
+    tts_query_input = st.text_input('tts query:')
+    if ner_query_input != '':
+        with st.spinner('Predicting...'):
+            st.audio(tts_model(tts_query_input, lang='ko', speaker='ko'))
+        
+
             
     
 
