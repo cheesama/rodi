@@ -1,2 +1,3 @@
 pororo
 streamlit
+spacy-streamlit
