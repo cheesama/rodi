@@ -26,7 +26,6 @@ def load_sentiment_model():
 # Load named entity recognition model
 @st.cache(allow_output_mutation=True)
 def load_ner_model():
-    st.subheader('Named Entity Recognition')
     with st.spinner('Loading sentiment_analysis model...'):
         ner_model = Pororo(task="ner", lang="ko")
         
