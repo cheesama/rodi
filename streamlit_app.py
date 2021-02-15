@@ -3,7 +3,7 @@ from pororo import Pororo
 import streamlit as st
 
 # Set page title
-st.title('Prototyping NLP models with Pororo')
+st.title('Prototyping NLP models with Pororo :robot:')
 
 # Load similarity model
 st.subheader('Semantic Textual Similarity')
@@ -21,6 +21,13 @@ with st.spinner('Loading similarity model...'):
 st.subheader('Sentiment Analysis')
 with st.spinner('Loading sentiment_analysis model...'):
     sentiment_model = Pororo(task="sentiment", model="brainbert.base.ko.shopping", lang="ko")
+
+    query_input = st.text_input('query:')
+
+    if query_input != '':
+        with st.spinner('Predicting...'):
+            st.write('Result:')
+            st.json(sentiment_model(query_input, show_probs=True))
 
 # Load named entity recognition model
 st.subheader('Named Entity Recognition')
