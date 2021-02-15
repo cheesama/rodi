@@ -1,6 +1,6 @@
-pororo
 streamlit
 spacy-streamlit
+git+https://github.com/kakaobrain/pororo.git
 
 #tts related
 soundfile
