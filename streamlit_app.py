@@ -35,7 +35,7 @@ def load_ner_model():
 @st.cache(allow_output_mutation=True)
 def load_tts_model():
     with st.spinner('Loading tts model...'):
-        tts_model = Pororo(task="tts", lang="ko")
+        tts_model = Pororo(task="tts", lang="multi")
         
         return tts_model
 
