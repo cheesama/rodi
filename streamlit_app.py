@@ -33,7 +33,7 @@ def load_ner_model():
 
 def hf_ents_to_displacy_format(ents, ignore_entities=[]):
     s_ents = {}
-    s_ents["text"] = " ".join([e["word"] for e in ents])
+    s_ents["text"] = " ".join([e[0] for e in ents])
     spacy_ents = []
     start_pointer = 0
     if "entity_group" in ents[0]:
@@ -45,11 +45,11 @@ def hf_ents_to_displacy_format(ents, ignore_entities=[]):
             spacy_ents.append(
                 {
                     "start": start_pointer,
-                    "end": start_pointer + len(ent["word"]),
+                    "end": start_pointer + len(ent[0]),
                     "label": ent[entity_key],
                 }
             )
-        start_pointer = start_pointer + len(ent["word"]) + 1
+        start_pointer = start_pointer + len(ent[0]) + 1
     s_ents["ents"] = spacy_ents
     s_ents["title"] = None
 
