@@ -5,7 +5,7 @@ import streamlit as st
 import random
 
 # Set page title
-st.title('Prototyping NLP models with Pororo')
+st.title('Rapid pOroro Demo Inferencer')
 
 # Load similarity model
 @st.cache(allow_output_mutation=True)
@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
     st.subheader('Sentiment Analysis')
     sentiment_model = load_sentiment_model()
-    sentiment_query_input = st.text_input('query:')
+    sentiment_query_input = st.text_input('sentiment query:')
     if sentiment_query_input != '':
         with st.spinner('Predicting...'):
             st.write('Result:')
@@ -85,7 +85,7 @@ if __name__ == '__main__':
 
     st.subheader('Named Entity Recognition')
     ner_model = load_ner_model()
-    ner_query_input = st.text_input('query:')
+    ner_query_input = st.text_input('ner query:')
     if ner_query_input != '':
         with st.spinner('Predicting...'):
             st.write('Result:')
