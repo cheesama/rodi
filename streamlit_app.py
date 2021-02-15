@@ -8,7 +8,6 @@ st.title('Prototyping NLP models with Pororo')
 st.markdown(':robot:')
 
 # Load similarity model
-@st.cache
 def load_similarity_model():
     st.subheader('Semantic Textual Similarity')
     with st.spinner('Loading similarity model...'):
@@ -17,7 +16,6 @@ def load_similarity_model():
         return similarity_model
 
 # Load sentiment_analysis model
-@st.cache
 def load_sentiment_model():
     st.subheader('Sentiment Analysis')
     with st.spinner('Loading sentiment_analysis model...'):
@@ -26,7 +24,6 @@ def load_sentiment_model():
         return sentiment_model
 
 # Load named entity recognition model
-@st.cache
 def load_ner_model():
     st.subheader('Named Entity Recognition')
     with st.spinner('Loading sentiment_analysis model...'):
