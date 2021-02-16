@@ -108,7 +108,7 @@ if __name__ == '__main__':
     st.subheader('Speech Synthesis')
     tts_model = load_tts_model()
     tts_query_input = st.text_input('tts query:')
-    if ner_query_input != '':
+    if tts_query_input != '':
         with st.spinner('Predicting...'):
             st.audio(tts_model(tts_query_input, lang='ko', speaker='ko'))
         
