@@ -110,7 +110,7 @@ if __name__ == '__main__':
     tts_query_input = st.text_input('tts query:')
     if tts_query_input != '':
         with st.spinner('Predicting...'):
-            st.audio(tts_model(tts_query_input, lang='ko', speaker='ko'))
+            st.audio(tts_model(tts_query_input, lang='ko', speaker='ko'), format='audio/wav')
         
 
             
