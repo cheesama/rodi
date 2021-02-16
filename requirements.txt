@@ -1,20 +1,3 @@
 streamlit
 spacy-streamlit
 git+https://github.com/kakaobrain/pororo.git
-
-#tts related
-soundfile
-torchaudio==0.6.0
-librosa
-editdistance==0.5.3
-epitran==1.2
-fastdtw==0.3.4
-future
-jieba==0.42.1
-Pillow==7.2.0
-pinyin==0.4.0
-scikit-learn
-scipy
-SoundFile==0.10.2
-numba==0.48
-ko_pron
