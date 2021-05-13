@@ -4,6 +4,8 @@ from spacy import displacy
 import streamlit as st
 import random
 
+print (Pororo.available_tasks())
+
 # Set page title
 st.title('Rapid pOroro Demo Inferencer')
 
@@ -30,6 +32,14 @@ def load_ner_model():
         ner_model = Pororo(task="ner", lang="ko")
         
         return ner_model
+
+# Load Paraphrase Identification model
+@st.cache(allow_output_mutation=True)
+def load_paraphrase_identification_model():
+    with st.spinner('Loading paraphrase_identification model...'):
+        paws_model = Pororo(task="para", lang="ko")
+        
+        return paws_model
 
 # Load tts model
 @st.cache(allow_output_mutation=True)
@@ -104,6 +114,9 @@ if __name__ == '__main__':
             html = displacy.render(bert_doc, manual=True, style="ent", options={"colors": color_map})
             html = html.replace("\n", " ")
             st.write(WRAPPER.format(html), unsafe_allow_html=True)
+
+    st.subheader('Named Entity Recognition')
+    ner_model = load_ner_model()
 
     #st.subheader('Speech Synthesis')
     #tts_model = load_tts_model()
