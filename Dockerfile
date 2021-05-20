@@ -1,8 +1,8 @@
 FROM python:3.8.10-slim
 
 RUN apt-get update && apt-get install -y wget gcc build-essential
-
-RUN pip install fastapi uvicorn pororo python-mecab-ko
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
 # download pre-trained models
 ## text classification
@@ -29,3 +29,5 @@ summ = Pororo(task='summarization', model='extractive', lang='ko')"
 RUN python -c "from pororo import Pororo; \
 tk = Pororo(task='tokenization', lang='ko', model='bpe32k.ko'); \
 word2vec = Pororo('word2vec', lang='ko')"
+
+CMD ["streamlit","run","streamlit_app.py", "--server.port","8080"]

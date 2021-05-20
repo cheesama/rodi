@@ -1,3 +1,7 @@
+python-mecab-ko
 streamlit
 spacy-streamlit
-git+https://github.com/kakaobrain/pororo.git
+pororo
+fastapi
+uvicorn
+
