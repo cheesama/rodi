@@ -115,20 +115,4 @@ if __name__ == '__main__':
             html = html.replace("\n", " ")
             st.write(WRAPPER.format(html), unsafe_allow_html=True)
 
-    st.subheader('Named Entity Recognition')
-    ner_model = load_ner_model()
-
-    #st.subheader('Speech Synthesis')
-    #tts_model = load_tts_model()
-    #tts_query_input = st.text_input('tts query:')
-    #if tts_query_input != '':
-    #    with st.spinner('Predicting...'):
-    #        st.audio(tts_model(tts_query_input, lang='ko', speaker='ko'), format='audio/wav')
-        
-
-            
-    
-
-    
-
 
