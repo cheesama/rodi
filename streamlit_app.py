@@ -48,7 +48,18 @@ def load_tts_model():
         tts_model = Pororo(task="tts", lang="multi")
         
         return tts_model
-
+    
+# load mt model
+def load_mt_model():
+  with st.spinner('Loading tts model...'):
+   mt = Pororo(task="translation", lang="multi")
+   
+   return mt
+    
+    
+    
+    
+    
 def hf_ents_to_displacy_format(ents, ignore_entities=[]):
     s_ents = {}
     s_ents["text"] = " ".join([e[0] for e in ents])
