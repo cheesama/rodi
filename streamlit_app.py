@@ -56,9 +56,9 @@ def load_tts_model():
         return tts_model
 
 
-# load mt model
-def load_mt_model():
-    with st.spinner("Loading tts model..."):
+# load machine_translation model
+def load_machine_translation_model():
+    with st.spinner("Loading machine_translation model..."):
         mt = Pororo(task="translation", lang="multi")
 
         return mt
