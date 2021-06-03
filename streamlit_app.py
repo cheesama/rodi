@@ -62,6 +62,8 @@ def load_machine_translation_model():
         mt = Pororo(task="translation", lang="multi")
 
         return mt
+def format_func(option):
+    return CHOICES[option]
 
 
 def hf_ents_to_displacy_format(ents, ignore_entities=[]):
@@ -137,3 +139,25 @@ if __name__ == "__main__":
             )
             html = html.replace("\n", " ")
             st.write(WRAPPER.format(html), unsafe_allow_html=True)
+    
+    ### machine translation
+    st.subheader("Machine Translation")
+    
+    # select input language
+    CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi":"중국어"}
+    src_option = st.selectbox("입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func)
+    
+    # select target language
+    tgt_option = st.selectbox("타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func)
+
+
+    input_text = st.text_input("번역 할 문장 입력:")
+    
+    mt_model = load_machine_translation_model()
+    
+    if input_text != "":
+        with st.spinner("Predicting..."):
+            st.write(
+                'result': mt_model(input_text, src=src_option, tgt=tgt_option)
+            )
+            
