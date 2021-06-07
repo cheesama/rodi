@@ -26,9 +26,9 @@ pg = Pororo(task='pg', lang='ko'); \
 summ = Pororo(task='summarization', model='extractive', lang='ko')"
 
 ## misc
-RUN python -c "from pororo import Pororo; \
-tk = Pororo(task='tokenization', lang='ko', model='bpe32k.ko'); \
-word2vec = Pororo('word2vec', lang='ko'); \
-ocr = Pororo(task='ocr', lang='ko')"
+#RUN python -c "from pororo import Pororo; \
+#tk = Pororo(task='tokenization', lang='ko', model='bpe32k.ko'); \
+#word2vec = Pororo('word2vec', lang='ko'); \
+#ocr = Pororo(task='ocr', lang='ko')"
 
 CMD ["streamlit","run","streamlit_app.py", "--server.port","8080"]
