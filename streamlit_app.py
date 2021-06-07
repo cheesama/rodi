@@ -9,6 +9,8 @@ print(Pororo.available_tasks())
 # Set page title
 st.title("Rapid pOroro Demo Inferencer")
 
+## text classification
+
 # Load similarity model
 @st.cache(allow_output_mutation=True)
 def load_similarity_model():
@@ -17,6 +19,15 @@ def load_similarity_model():
 
         return similarity_model
 
+# Load review_score model
+@st.cache(allow_output_mutation=True)
+def load_review_score_model():
+    with st.spinner("Loading review_score model..."):
+        review_score_model = Pororo(
+            task="review", lang="ko"
+        )
+
+        return review_score_model
 
 # Load sentiment_analysis model
 @st.cache(allow_output_mutation=True)
@@ -28,6 +39,15 @@ def load_sentiment_model():
 
         return sentiment_model
 
+## sequence tagging
+
+# Load machine reading comprehension model
+@st.cache(allow_output_mutation=True)
+def load_mrc_model():
+    with st.spinner("Loading machine reading comprehension model..."):
+        ner_model = Pororo(task="mrc", lang="ko")
+
+        return ner_model
 
 # Load named entity recognition model
 @st.cache(allow_output_mutation=True)
@@ -37,6 +57,15 @@ def load_ner_model():
 
         return ner_model
 
+# Load part of speech model
+@st.cache(allow_output_mutation=True)
+def load_ner_model():
+    with st.spinner("Loading POS model..."):
+        pos_model = Pororo(task="pos", lang="ko")
+
+        return pos_model
+
+## seq2seq
 
 # Load Paraphrase Identification model
 @st.cache(allow_output_mutation=True)
