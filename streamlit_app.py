@@ -79,6 +79,21 @@ def load_paraphrase_identification_model():
 
         return paws_model
 
+# load machine_translation model
+@st.cache(allow_output_mutation=True)
+def load_machine_translation_model():
+    with st.spinner("Loading machine_translation model..."):
+        mt = Pororo(task="translation", lang="multi")
+
+        return mt
+
+# load text_summarization model
+@st.cache(allow_output_mutation=True)
+def load_text_summarization_model():
+    with st.spinner("Loading text_summarization model..."):
+        summ = Pororo(task="summarization", model="extractive", lang="ko")
+
+        return summ
 
 # Load tts model
 @st.cache(allow_output_mutation=True)
@@ -87,15 +102,6 @@ def load_tts_model():
         tts_model = Pororo(task="tts", lang="multi")
 
         return tts_model
-
-
-# load machine_translation model
-@st.cache(allow_output_mutation=True)
-def load_machine_translation_model():
-    with st.spinner("Loading machine_translation model..."):
-        mt = Pororo(task="translation", lang="multi")
-
-        return mt
 
 
 def format_func(option):
@@ -141,86 +147,116 @@ def add_colormap(labels):
 WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem; margin-bottom: 2.5rem">{}</div>"""
 
 if __name__ == "__main__":
-    st.subheader("Semantic Textual Similarity")
-    similarity_model = load_similarity_model()
-    sim_query1_input = st.text_input("query1:")
-    sim_query2_input = st.text_input("query2:")
-    if sim_query1_input != "" and sim_query2_input != "":
-        with st.spinner("Predicting..."):
-            st.write(
-                f"Similarity: {similarity_model(sim_query1_input, sim_query2_input)}"
-            )
-
-    st.markdown("""---""")
-
-    st.subheader("Sentiment Analysis")
-    sentiment_model = load_sentiment_model()
-    sentiment_query_input = st.text_input("sentiment query:")
-    if sentiment_query_input != "":
-        with st.spinner("Predicting..."):
-            st.write("Result:")
-            st.json(sentiment_model(sentiment_query_input, show_probs=True))
-
-    st.markdown("""---""")
-
-    st.subheader("Named Entity Recognition")
-    ner_model = load_ner_model()
-    ner_query_input = st.text_input("ner query:")
-    if ner_query_input != "":
-        with st.spinner("Predicting..."):
-            st.write("Result:")
-            bert_doc = hf_ents_to_displacy_format(
-                ner_model(ner_query_input), ignore_entities=["O"]
-            )
-            labels = list(set([a["label"] for a in bert_doc["ents"]]))
-            color_map = add_colormap(labels)
-            html = displacy.render(
-                bert_doc, manual=True, style="ent", options={"colors": color_map}
-            )
-            html = html.replace("\n", " ")
-            st.write(WRAPPER.format(html), unsafe_allow_html=True)
-
-    st.markdown("""---""")
-
-    ## part-of-speech tagging
-    st.subheader("Part Of Speech Tagging")
-    pos_model = load_pos_model()
-    pos_query_input = st.text_input("pos query:")
-    if pos_query_input != "":
-        with st.spinner("Predicting..."):
-            st.write(f"Result: {pos_model(pos_query_input)}")
-
-    st.markdown("""---""")
-
-    ## machine reading comprehension
-    st.subheader("Machine Reading Comprehension")
-    mrc_model = load_mrc_model()
-    mrc_document_input = st.text_area("document content:")
-    mrc_query_input = st.text_input("mrc query:")
-    if mrc_document_input != "" and mrc_query_input != "":
-        with st.spinner("Predicting..."):
-            st.write(f"Result: {mrc_model(mrc_query_input, mrc_document_input)[0]}")
-
-    st.markdown("""---""")
-
-    ## machine translation
-    st.subheader("Machine Translation")
-
-    # select input language
-    CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
-    src_option = st.selectbox(
-        "입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+    st.sidebar.title("Task Type")
+    select = st.sidebar.selectbox('Type', 
+        [
+            'TEXT CLASSIFICATION', 
+            'SEQUENCE TAGGING', 
+            'SEQ2SEQ', 
+            #'MISC', 
+        ], 
+        key='0'
     )
 
-    # select target language
-    tgt_option = st.selectbox(
-        "타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func
-    )
+    if select == 'TEXT CLASSIFICATION':
+        st.subheader("Semantic Textual Similarity")
+        similarity_model = load_similarity_model()
+        sim_query1_input = st.text_input("query1:")
+        sim_query2_input = st.text_input("query2:")
+        if sim_query1_input != "" and sim_query2_input != "":
+            with st.spinner("Predicting..."):
+                st.write(
+                    f"Similarity: {similarity_model(sim_query1_input, sim_query2_input)}"
+                )
 
-    input_text = st.text_input("번역 할 문장 입력:")
+        st.markdown("""---""")
 
-    mt_model = load_machine_translation_model()
+        st.subheader("Sentiment Analysis")
+        sentiment_model = load_sentiment_model()
+        sentiment_query_input = st.text_input("sentiment query:")
+        if sentiment_query_input != "":
+            with st.spinner("Predicting..."):
+                st.write("Result:")
+                st.json(sentiment_model(sentiment_query_input, show_probs=True))
 
-    if input_text != "":
-        with st.spinner("Predicting..."):
-            st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
+        st.markdown("""---""")
+
+    elif select == 'SEQUENCE TAGGING':
+        ## machine reading comprehension
+        st.subheader("Machine Reading Comprehension")
+        mrc_model = load_mrc_model()
+        mrc_document_input = st.text_area("document content:")
+        mrc_query_input = st.text_input("mrc query:")
+        if mrc_document_input != "" and mrc_query_input != "":
+            with st.spinner("Predicting..."):
+                st.write(f"Result: {mrc_model(mrc_query_input, mrc_document_input)[0]}")
+
+        st.markdown("""---""")
+
+        st.subheader("Named Entity Recognition")
+        ner_model = load_ner_model()
+        ner_query_input = st.text_input("ner query:")
+        if ner_query_input != "":
+            with st.spinner("Predicting..."):
+                st.write("Result:")
+                bert_doc = hf_ents_to_displacy_format(
+                    ner_model(ner_query_input), ignore_entities=["O"]
+                )
+                labels = list(set([a["label"] for a in bert_doc["ents"]]))
+                color_map = add_colormap(labels)
+                html = displacy.render(
+                    bert_doc, manual=True, style="ent", options={"colors": color_map}
+                )
+                html = html.replace("\n", " ")
+                st.write(WRAPPER.format(html), unsafe_allow_html=True)
+
+        st.markdown("""---""")
+
+        ## part-of-speech tagging
+        st.subheader("Part Of Speech Tagging")
+        pos_model = load_pos_model()
+        pos_query_input = st.text_input("pos query:")
+        if pos_query_input != "":
+            with st.spinner("Predicting..."):
+                st.write(f"Result: {pos_model(pos_query_input)}")
+
+        st.markdown("""---""")
+
+    elif select == 'SEQ2SEQ':
+        ## machine translation
+        st.subheader("Machine Translation")
+
+        # select input language
+        CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
+        src_option = st.selectbox(
+            "입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+        )
+
+        # select target language
+        tgt_option = st.selectbox(
+            "타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+        )
+
+        input_text = st.text_input("번역 할 문장 입력:")
+
+        mt_model = load_machine_translation_model()
+
+        if input_text != "":
+            with st.spinner("Predicting..."):
+                st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
+
+        st.markdown("""---""")
+
+        ## text summarization
+        st.subheader("Text Summarization")
+        summ_model = load_text_summarization_model()
+        summarization_query = st.text_area('full content: ')
+        if summarization_query != "":
+            with st.spinner("Predicting..."):
+                st.write(f"result : {summ_model(summarization_query)}")
+
+        st.markdown("""---""")
+
+
+
+    
