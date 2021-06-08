@@ -62,7 +62,7 @@ def load_ner_model():
 
 # Load part of speech model
 @st.cache(allow_output_mutation=True)
-def load_ner_model():
+def load_pos_model():
     with st.spinner("Loading POS model..."):
         pos_model = Pororo(task="pos", lang="ko")
 
@@ -90,6 +90,7 @@ def load_tts_model():
 
 
 # load machine_translation model
+@st.cache(allow_output_mutation=True)
 def load_machine_translation_model():
     with st.spinner("Loading machine_translation model..."):
         mt = Pororo(task="translation", lang="multi")
@@ -150,6 +151,8 @@ if __name__ == "__main__":
                 f"Similarity: {similarity_model(sim_query1_input, sim_query2_input)}"
             )
 
+    st.markdown("""---""")
+
     st.subheader("Sentiment Analysis")
     sentiment_model = load_sentiment_model()
     sentiment_query_input = st.text_input("sentiment query:")
@@ -157,6 +160,8 @@ if __name__ == "__main__":
         with st.spinner("Predicting..."):
             st.write("Result:")
             st.json(sentiment_model(sentiment_query_input, show_probs=True))
+
+    st.markdown("""---""")
 
     st.subheader("Named Entity Recognition")
     ner_model = load_ner_model()
@@ -175,14 +180,28 @@ if __name__ == "__main__":
             html = html.replace("\n", " ")
             st.write(WRAPPER.format(html), unsafe_allow_html=True)
 
+    st.markdown("""---""")
+
+    ## part-of-speech tagging
+    st.subheader("Part Of Speech Tagging")
+    pos_model = load_pos_model()
+    pos_query_input = st.text_input("pos query:")
+    if pos_query_input != "":
+        with st.spinner("Predicting..."):
+            st.write(f"Result: {pos_model(pos_query_input)}")
+
+    st.markdown("""---""")
+
     ## machine reading comprehension
     st.subheader("Machine Reading Comprehension")
     mrc_model = load_mrc_model()
-    mrc_document_input = st.text_input("document content:")
+    mrc_document_input = st.text_area("document content:")
     mrc_query_input = st.text_input("mrc query:")
     if mrc_document_input != "" and mrc_query_input != "":
         with st.spinner("Predicting..."):
-            st.write(f"Result: {mrc(mrc_query_input, mrc_document_input)[0]}")
+            st.write(f"Result: {mrc_model(mrc_query_input, mrc_document_input)[0]}")
+
+    st.markdown("""---""")
 
     ## machine translation
     st.subheader("Machine Translation")
