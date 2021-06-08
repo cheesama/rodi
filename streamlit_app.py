@@ -19,15 +19,15 @@ def load_similarity_model():
 
         return similarity_model
 
+
 # Load review_score model
 @st.cache(allow_output_mutation=True)
 def load_review_score_model():
     with st.spinner("Loading review_score model..."):
-        review_score_model = Pororo(
-            task="review", lang="ko"
-        )
+        review_score_model = Pororo(task="review", lang="ko")
 
         return review_score_model
+
 
 # Load sentiment_analysis model
 @st.cache(allow_output_mutation=True)
@@ -39,15 +39,17 @@ def load_sentiment_model():
 
         return sentiment_model
 
+
 ## sequence tagging
 
 # Load machine reading comprehension model
 @st.cache(allow_output_mutation=True)
 def load_mrc_model():
     with st.spinner("Loading machine reading comprehension model..."):
-        ner_model = Pororo(task="mrc", lang="ko")
+        mrc_model = Pororo(task="mrc", lang="ko")
 
-        return ner_model
+        return mrc_model
+
 
 # Load named entity recognition model
 @st.cache(allow_output_mutation=True)
@@ -57,6 +59,7 @@ def load_ner_model():
 
         return ner_model
 
+
 # Load part of speech model
 @st.cache(allow_output_mutation=True)
 def load_ner_model():
@@ -64,6 +67,7 @@ def load_ner_model():
         pos_model = Pororo(task="pos", lang="ko")
 
         return pos_model
+
 
 ## seq2seq
 
@@ -91,6 +95,8 @@ def load_machine_translation_model():
         mt = Pororo(task="translation", lang="multi")
 
         return mt
+
+
 def format_func(option):
     return CHOICES[option]
 
@@ -168,25 +174,34 @@ if __name__ == "__main__":
             )
             html = html.replace("\n", " ")
             st.write(WRAPPER.format(html), unsafe_allow_html=True)
-    
-    ### machine translation
-    st.subheader("Machine Translation")
-    
-    # select input language
-    CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi":"중국어"}
-    src_option = st.selectbox("입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func)
-    
-    # select target language
-    tgt_option = st.selectbox("타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func)
 
+    ## machine reading comprehension
+    st.subheader("Machine Reading Comprehension")
+    mrc_model = load_mrc_model()
+    mrc_document_input = st.text_input("document content:")
+    mrc_query_input = st.text_input("mrc query:")
+    if mrc_document_input != "" and mrc_query_input != "":
+        with st.spinner("Predicting..."):
+            st.write(f"Result: {mrc(mrc_query_input, mrc_document_input)[0]}")
+
+    ## machine translation
+    st.subheader("Machine Translation")
+
+    # select input language
+    CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
+    src_option = st.selectbox(
+        "입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+    )
+
+    # select target language
+    tgt_option = st.selectbox(
+        "타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+    )
 
     input_text = st.text_input("번역 할 문장 입력:")
-    
+
     mt_model = load_machine_translation_model()
-    
+
     if input_text != "":
         with st.spinner("Predicting..."):
-            st.write(
-                'result': mt_model(input_text, src=src_option, tgt=tgt_option)
-            )
-            
+            st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
