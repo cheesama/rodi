@@ -98,10 +98,18 @@ def load_text_summarization_model():
 # Load tts model
 @st.cache(allow_output_mutation=True)
 def load_tts_model():
-    with st.spinner("Loading tts model..."):
+    with st.spinner("Loading TTS model..."):
         tts_model = Pororo(task="tts", lang="multi")
 
         return tts_model
+
+# Load ocr model
+@st.cache(allow_output_mutation=True)
+def load_ocr_model():
+    with st.spinner("Loading OCR model..."):
+        ocr_model = Pororo(task="ocr", lang="ko")
+
+        return ocr_model
 
 
 def format_func(option):
@@ -260,6 +268,7 @@ if __name__ == "__main__":
     elif select == 'MISC':
         ## optical character recognition
         st.subheader("Optical Character Recognition")
+        ocr_model = load_ocr_model()
 
         st.markdown("""---""")
 
