@@ -5,3 +5,5 @@ pororo
 fastapi
 uvicorn
 
+opencv-python
+
