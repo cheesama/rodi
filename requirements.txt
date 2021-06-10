@@ -6,5 +6,5 @@ fastapi
 uvicorn
 
 opencv-python
-skimage
+scikit-image
 
