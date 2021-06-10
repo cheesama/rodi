@@ -257,6 +257,10 @@ if __name__ == "__main__":
 
         st.markdown("""---""")
 
+    elif select == 'MISC':
+        ## optical character recognition
+        st.subheader("Optical Character Recognition")
 
+        st.markdown("""---""")
 
     
