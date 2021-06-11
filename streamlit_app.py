@@ -231,31 +231,29 @@ if __name__ == "__main__":
         st.markdown("""---""")
 
     elif select == 'SEQ2SEQ':
-        '''
         ## machine translation
-        st.subheader("Machine Translation")
+        #st.subheader("Machine Translation")
 
         # select input language
-        CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
-        src_option = st.selectbox(
-            "입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func
-        )
+        #CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
+        #src_option = st.selectbox(
+        #    "입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+        #)
 
         # select target language
-        tgt_option = st.selectbox(
-            "타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func
-        )
+        #tgt_option = st.selectbox(
+        #    "타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func
+        #)
 
-        input_text = st.text_input("번역 할 문장 입력:")
+        #input_text = st.text_input("번역 할 문장 입력:")
 
-        mt_model = load_machine_translation_model()
+        #mt_model = load_machine_translation_model()
 
-        if input_text != "":
-            with st.spinner("Predicting..."):
-                st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
+        #if input_text != "":
+        #    with st.spinner("Predicting..."):
+        #        st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
 
-        st.markdown("""---""")
-        '''
+        #st.markdown("""---""")
 
         ## text summarization
         st.subheader("Text Summarization")
