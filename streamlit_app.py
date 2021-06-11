@@ -161,7 +161,7 @@ if __name__ == "__main__":
             'TEXT CLASSIFICATION', 
             'SEQUENCE TAGGING', 
             'SEQ2SEQ', 
-            #'MISC', 
+            'MISC', 
         ], 
         key='0'
     )
@@ -231,6 +231,7 @@ if __name__ == "__main__":
         st.markdown("""---""")
 
     elif select == 'SEQ2SEQ':
+        '''
         ## machine translation
         st.subheader("Machine Translation")
 
@@ -254,6 +255,7 @@ if __name__ == "__main__":
                 st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
 
         st.markdown("""---""")
+        '''
 
         ## text summarization
         st.subheader("Text Summarization")
