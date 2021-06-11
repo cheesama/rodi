@@ -29,4 +29,5 @@ summ = Pororo(task='summarization', model='extractive', lang='ko')"
 RUN python -c "from pororo import Pororo; \
 ocr = Pororo(task='ocr', lang='ko')"
 
+COPY streamlit_app.py .
 CMD ["streamlit","run","streamlit_app.py", "--server.port","8080"]
