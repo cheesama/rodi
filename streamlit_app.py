@@ -269,6 +269,7 @@ if __name__ == "__main__":
         ## optical character recognition
         st.subheader("Optical Character Recognition")
         ocr_model = load_ocr_model()
+        uploaded_files = st.file_uploader("Choose Image file", accept_multiple_files=True)
 
         st.markdown("""---""")
 
