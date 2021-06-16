@@ -4,8 +4,6 @@ from spacy import displacy
 import streamlit as st
 import random
 
-print(Pororo.available_tasks())
-
 # Set page title
 st.title("Rapid pOroro Demo Inferencer")
 
@@ -271,7 +269,7 @@ if __name__ == "__main__":
         ocr_model = load_ocr_model()
         uploaded_file = st.file_uploader("Upload Image file", type=['png','jpg','jpeg'])
 
-        if uploaded_file != "":
+        if uploaded_file is not None:
             st.json(ocr_model(uploaded_file, detail=True))
         
         st.markdown("""---""")
