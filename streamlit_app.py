@@ -269,6 +269,8 @@ if __name__ == "__main__":
         ocr_model = load_ocr_model()
         uploaded_file = st.file_uploader("Upload Image file", type=['png','jpg','jpeg'])
 
+        print (uploaded_file)
+
         if uploaded_file is not None:
             st.json(ocr_model(uploaded_file, detail=True))
         
