@@ -79,6 +79,7 @@ def load_paraphrase_identification_model():
 
         return paws_model
 
+
 # load machine_translation model
 @st.cache(allow_output_mutation=True)
 def load_machine_translation_model():
@@ -86,6 +87,7 @@ def load_machine_translation_model():
         mt = Pororo(task="translation", lang="multi")
 
         return mt
+
 
 # load text_summarization model
 @st.cache(allow_output_mutation=True)
@@ -95,6 +97,7 @@ def load_text_summarization_model():
 
         return summ
 
+
 # Load tts model
 @st.cache(allow_output_mutation=True)
 def load_tts_model():
@@ -102,6 +105,7 @@ def load_tts_model():
         tts_model = Pororo(task="tts", lang="multi")
 
         return tts_model
+
 
 # Load ocr model
 @st.cache(allow_output_mutation=True)
@@ -156,17 +160,18 @@ WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-rad
 
 if __name__ == "__main__":
     st.sidebar.title("Task Type")
-    select = st.sidebar.selectbox('Type', 
+    select = st.sidebar.selectbox(
+        "Type",
         [
-            'TEXT CLASSIFICATION', 
-            'SEQUENCE TAGGING', 
-            'SEQ2SEQ', 
-            'MISC', 
-        ], 
-        key='0'
+            "TEXT CLASSIFICATION",
+            "SEQUENCE TAGGING",
+            "SEQ2SEQ",
+            "MISC",
+        ],
+        key="0",
     )
 
-    if select == 'TEXT CLASSIFICATION':
+    if select == "TEXT CLASSIFICATION":
         st.subheader("Semantic Textual Similarity")
         similarity_model = load_similarity_model()
         sim_query1_input = st.text_input("query1:")
@@ -189,7 +194,7 @@ if __name__ == "__main__":
 
         st.markdown("""---""")
 
-    elif select == 'SEQUENCE TAGGING':
+    elif select == "SEQUENCE TAGGING":
         ## machine reading comprehension
         st.subheader("Machine Reading Comprehension")
         mrc_model = load_mrc_model()
@@ -208,7 +213,8 @@ if __name__ == "__main__":
             with st.spinner("Predicting..."):
                 st.write("Result:")
                 bert_doc = hf_ents_to_displacy_format(
-                    ner_model(ner_query_input), ignore_entities=["O"]
+                    ner_model(ner_query_input, apply_wsd=True, ignore_labels=["O"]),
+                    ignore_entities=["O"],
                 )
                 labels = list(set([a["label"] for a in bert_doc["ents"]]))
                 color_map = add_colormap(labels)
@@ -230,51 +236,51 @@ if __name__ == "__main__":
 
         st.markdown("""---""")
 
-    elif select == 'SEQ2SEQ':
+    elif select == "SEQ2SEQ":
         ## machine translation
-        #st.subheader("Machine Translation")
+        # st.subheader("Machine Translation")
 
         # select input language
-        #CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
-        #src_option = st.selectbox(
+        # CHOICES = {"ko": "한국어", "en": "영어", "jp": "일본어", "zhi": "중국어"}
+        # src_option = st.selectbox(
         #    "입력 언어 선택", options=list(CHOICES.keys()), format_func=format_func
-        #)
+        # )
 
         # select target language
-        #tgt_option = st.selectbox(
+        # tgt_option = st.selectbox(
         #    "타겟 언어 선택", options=list(CHOICES.keys()), format_func=format_func
-        #)
+        # )
 
-        #input_text = st.text_input("번역 할 문장 입력:")
+        # input_text = st.text_input("번역 할 문장 입력:")
 
-        #mt_model = load_machine_translation_model()
+        # mt_model = load_machine_translation_model()
 
-        #if input_text != "":
+        # if input_text != "":
         #    with st.spinner("Predicting..."):
         #        st.write(f"result : {mt_model(input_text, src=src_option, tgt=tgt_option)}")
 
-        #st.markdown("""---""")
+        # st.markdown("""---""")
 
         ## text summarization
         st.subheader("Text Summarization")
         summ_model = load_text_summarization_model()
-        summarization_query = st.text_area('full content: ')
+        summarization_query = st.text_area("full content: ")
         if summarization_query != "":
             with st.spinner("Predicting..."):
                 st.write(f"result : {summ_model(summarization_query)}")
 
         st.markdown("""---""")
 
-    elif select == 'MISC':
+    elif select == "MISC":
         ## optical character recognition
         st.subheader("Optical Character Recognition")
         ocr_model = load_ocr_model()
-        uploaded_file = st.file_uploader("Upload Image file", type=['png','jpg','jpeg'])
+        uploaded_file = st.file_uploader(
+            "Upload Image file", type=["png", "jpg", "jpeg"]
+        )
 
         if uploaded_file is not None:
             image = np.array(Image.open(uploaded_file))
             st.json(ocr_model(image, detail=True))
-        
-        st.markdown("""---""")
 
-    
+        st.markdown("""---""")
