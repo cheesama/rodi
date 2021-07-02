@@ -12,7 +12,7 @@ embedding_model = Pororo(task='sentence_embedding', lang='ko'); \
 review_score_model = Pororo(task='review', lang='ko'); \
 sentiment_model = Pororo(task='sentiment', model='brainbert.base.ko.shopping', lang='ko')"
 
-## sqeuence tagging
+## seqeuence tagging
 RUN python -c "from pororo import Pororo; \
 fib = Pororo(task='fib', lang='ko'); \ 
 mrc = Pororo(task='mrc', lang='ko'); \

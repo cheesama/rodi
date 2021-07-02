@@ -22,7 +22,7 @@ if __name__ == "__main__":
     st.subheader("Optical Character Recognition")
     ocr_model = load_ocr_model()
     uploaded_file = st.file_uploader(
-        "Upload Image file", type=["png", "jpg", "jpeg"]
+        "Upload Image file", type=["png", "jpg", "jpeg", "tif", "tiff"]
     )
 
     if uploaded_file is not None:
