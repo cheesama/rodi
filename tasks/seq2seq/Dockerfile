@@ -1,13 +1,18 @@
 FROM python:3.8.10-slim
 
-RUN apt-get update && apt-get install -y wget gcc build-essential python3-opencv
+RUN apt-get update && apt-get install -y wget gcc build-essential
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # download pre-trained models
-## misc
+## seq2seq
 RUN python -c "from pororo import Pororo; \
-ocr = Pororo(task='ocr', lang='ko')"
+spacing_model = Pororo(task='gec', lang='ko'); \ 
+pg_model = Pororo(task='pg', lang='ko'); \ 
+summ_model = Pororo(task='sentiment', model='brainbert.base.ko.shopping', lang='ko')"
 
-COPY streamlit_app.py .
-CMD ["streamlit","run","streamlit_app.py", "--server.port","8080"]
+COPY inferencer.py .
+
+CMD ["uvicorn", "inferencer:app", "--reload", "--host", "0.0.0.0"]
+
+
