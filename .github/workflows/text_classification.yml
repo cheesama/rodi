@@ -35,5 +35,5 @@ jobs:
         with:
           push: true
           tags: cheehoon1/rodi-text-classification:latest
-          path: tasks/text_classification
+          file: tasks/text_classification/Dockerfile
 
