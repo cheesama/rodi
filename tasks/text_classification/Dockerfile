@@ -14,6 +14,6 @@ sentiment_model = Pororo(task='sentiment', model='brainbert.base.ko.shopping', l
 
 COPY inferencer.py .
 
-CMD ["uvicorn", "inferencer:app", "--reload", "--host", "0.0.0.0"]
+CMD ["uvicorn", "inferencer:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
 
 
